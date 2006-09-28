@@ -8,7 +8,8 @@ use DBI;
 use DJabberd::Log;
 our $logger = DJabberd::Log->get_logger();
 
-use vars qw($_respect_subscription);
+use vars qw($_respect_subscription $VERSION);
+$VERSION = '1.00';
 
 sub set_config_database {
     my ($self, $dbfile) = @_;
@@ -380,3 +381,52 @@ sub wipe_roster {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+DJabberd::RosterStorage::SQLite - store your jabber roster in SQLite
+
+=head1 SYNOPSIS
+
+ <Vhost yourserver.com>
+    ...
+    <Plugin DJabberd::RosterStorage::SQLite>
+       Database roster.sqlite
+    </Plugin>
+    ...
+  </VHost>
+
+=head1 DESCRIPTION
+
+This stores your Jabber roster ("buddy list") in an SQLite database.
+
+The schema is automatically created on first use.
+
+=head1 WARNING: BLOCKS!
+
+This plugin blocks.  That is, it doesn't do database access async in a
+separate thread.  This is not a good plugin to use if you want
+DJabberd to perform well with lots of users.
+
+That said, a certain company is using this for ~100 employees with no
+problems.
+
+=head1 COPYRIGHT
+
+This module is Copyright (c) 2006 Six Apart, Ltd.
+All rights reserved.
+
+You may distribute under the terms of either the GNU General Public
+License or the Artistic License, as specified in the Perl README file.
+
+=head1 WARRANTY
+
+This is free software. IT COMES WITHOUT WARRANTY OF ANY KIND.
+
+=head1 AUTHORS
+
+Brad Fitzpatrick <brad@danga.com>
+
+Artur Bergman <sky@crucially.net>
