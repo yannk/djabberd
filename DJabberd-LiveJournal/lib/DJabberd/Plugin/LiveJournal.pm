@@ -21,8 +21,14 @@ sub gearman_client {
 sub set_config_gearmanservers {
     my ($self, $val) = @_;
     @gearman_servers = split(/\s*,\s*/, $val);
+    die "No gearmand servers configured in GearmanServers\n" unless @gearman_servers;
     $gearman_client = Gearman::Client::Async->new;
     $gearman_client->set_job_servers(@gearman_servers);
+}
+
+sub finalize {
+    my $self = shift;
+    die "No gearmand servers configured in GearmanServers\n" unless $gearman_client;
 }
 
 sub register {
