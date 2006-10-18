@@ -31,6 +31,17 @@ sub finalize {
     die "No gearmand servers configured in GearmanServers\n" unless $gearman_client;
 }
 
+our $cluster_if;
+
+sub cluster_if {
+    return $cluster_if;
+}
+
+sub set_config_clusterif {
+    my ($self, $val) = @_;
+    $cluster_if = $val;
+}
+
 sub register {
     my ($self, $vhost) = @_;
 
@@ -186,6 +197,18 @@ sub hook_on_initial_presence {
 
     my $bj = $conn->bound_jid;
     my $username = $bj->node;
+
+    $gc->add_task(Gearman::Task->new("ljtalk_initial_presence" => \Storable::nfreeze([$username, $bj->resource, $conn->peer_ip_string]), {
+        uniq => '-',
+        retry_count => 2,
+        timeout => 10,
+        on_fail => sub {
+            $DJabberd::Stats::counter{'ljtalk_initial_presence_fail'}++;
+        },
+        on_complete => sub {
+            $DJabberd::Stats::counter{'ljtalk_initial_presence_success'}++;
+        },
+    }));
 
     $gc->add_task(Gearman::Task->new("ljtalk_user_motd" => \Storable::nfreeze([$username]), {
         uniq        => "-",
