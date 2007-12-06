@@ -1,0 +1,91 @@
+
+body {
+margin: 0;
+padding: 0;
+background: #00002F;
+color: #ffffff;
+font-family: "Arial", "Helvetica", "FreeSans", sans-serif;
+font-size: 12px;
+}
+
+#pagecontainer {
+width: 900px;
+margin: 0 auto;
+background: #ffffff;
+color: #000000;
+border-top: 8px solid #00aaff;
+}
+#pagecontainer a {
+color: #000000;
+}
+
+h1 {
+display: none;
+}
+
+#vhostcontent {
+float: right;
+border-left: 1px solid #eeeeee;
+padding-left: 32px;
+margin: 32px;
+width: 600px;
+}
+
+#vhostselector {
+float: left;
+margin: 32px;
+margin-right: 0;
+width: 168px;
+}
+
+#vhostcontent h2, #vhostselector h1 {
+display: none;
+}
+
+#vhostselector ul, #vhostselector li {
+margin: 0;
+padding: 0;
+list-style: none;
+}
+#vhostselector li {
+margin: 8px;
+margin-top: 0;
+}
+#vhostselector li.current {
+font-weight: bold;
+}
+
+#tabs menu, #tabs li {
+margin: 0;
+padding: 0;
+list-style: none;
+}
+#tabs li a {
+display: block;
+padding: 8px;
+float: left;
+margin: 0 8px;
+margin-bottom: 8px;
+border-bottom: 1px solid #ffffff;
+}
+#tabs li.current a {
+border-bottom: 1px solid #00aaff;
+}
+
+#body {
+clear: left;
+padding-top: 8px;
+}
+
+#bottom {
+clear: both;
+background: #eeeeee;
+border-top: 2px solid #dddddd;
+padding: 4px;
+color: #999999;
+font-size: 0.9em;
+text-align: center;
+}
+#bottom a {
+color: #999999;
+}

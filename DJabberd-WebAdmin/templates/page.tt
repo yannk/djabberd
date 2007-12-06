@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>[[head_title|html]]</title>
+<link rel="stylesheet" type="text/css" href="/_/style" />
+</head>
+<body>
+
+<div id="pagecontainer">
+
+<h1>[[section_title|html]]</h1>
+
+<div id="vhostcontent">
+
+<div id='tabs'>
+<menu>
+[[ FOREACH tab IN tabs ]]
+<li[[IF tab.current]] class="current"[[END]]><a href="[[tab.url|html]]">[[tab.caption|html]]</a></li>
+[[ END ]]
+</menu>
+</div>
+
+<div id="body">
+<h2>[[page_title|html]]</h2>
+
+[[body]]
+
+</div>
+
+</div>
+
+<div id='vhostselector'>
+<h1>Configured VHosts</h1>
+<ul>
+[[ FOREACH vhost IN vhosts ]]
+<li[[IF vhost.current]] class="current"[[END]]><a href="[[vhost.url|html]]">[[vhost.name|html]]</a></li>
+[[ END ]]
+</ul>
+</div>
+
+<div id="bottom">
+<div id="poweredby">Powered by DJabberd Web Admin</div>
+<div id="versioninfo">using DJabberd version [[djabberd_version|html]] and Perlbal version [[perlbal_version|html]]</div>
+</div>
+
+</div>
+
+
+</body>
+</html>
