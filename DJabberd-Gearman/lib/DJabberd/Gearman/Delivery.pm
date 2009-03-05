@@ -26,21 +26,11 @@ earlier Delivery plugin.)
 package DJabberd::Gearman::Delivery;
 
 use DJabberd::Gearman;
-use base qw(DJabberd::Delivery DJabberd::Gearman::BasePlugin);
+use base qw(DJabberd::Gearman::BasePlugin);
+use DJabberd::Log;
+my $logger = DJabberd::Log->get_logger();
 
-sub set_config_receivefunc {
-    my ($self, $receive_func) = @_;
-
-    $self->{receive_func} = $receive_func;
-    $self->{receive_func} =~ s/^\s*//g;
-    $self->{receive_func} =~ s/\s*$//g;
-}
-
-sub set_config_transmitfunc {
-    my ($self, $transmit_func) = @_;
-
-    $self->{transmit_func} = $transmit_func;
-}
+__PACKAGE__->make_configurable_funcs(qw(receive transmit));
 
 sub register {
     my ($self, $vhost) = @_;
@@ -49,20 +39,20 @@ sub register {
 
     my $client = $self->gearman_client;
 
-    if ($self->{receive_func}) {
+    if ($self->receive_func) {
         $vhost->register_hook('deliver', sub {
             $self->handle_received_stanza(@_);
         });
     }
-
-    return $self->SUPER::register($vhost);
 }
 
 sub handle_received_stanza {
     my ($self, $vhost, $cb, $stanza) = @_;
 
-    my $func = $self->{receive_func};
+    my $func = $self->receive_func;
     my $stanza_xml = $stanza->as_xml;
+
+    $logger->debug("Sending stanza to $func function");
 
     $self->call_gearman_func($func, $stanza_xml, {
         complete => sub {

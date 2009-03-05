@@ -99,5 +99,33 @@ sub declare_gearman_func_raw {
 
 }
 
+sub make_configurable_funcs {
+    my ($class, @funcs) = @_;
+
+    no strict 'refs';
+
+    foreach my $func (@funcs) {
+        my $config_name = $func.'_func';
+        my $set_config_name = "set_config_".$func."func";
+        *{$class."::".$set_config_name} = sub {
+            my ($self, $name) = @_;
+            $self->$config_name($name);
+        };
+
+        *{$class."::".$config_name} = sub {
+            my $self = shift;
+
+            if (@_) {
+                $self->{$config_name} = shift;
+                $self->{$config_name} =~ s/^\s*//g;
+                $self->{$config_name} =~ s/\s*$//g;
+            }
+            else {
+                return $self->{$config_name};
+            }
+        };
+    }
+}
+
 1;
 
